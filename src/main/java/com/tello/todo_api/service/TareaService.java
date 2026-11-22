@@ -5,7 +5,6 @@ import com.tello.todo_api.dto.TareaResponse;
 import com.tello.todo_api.exception.TareaNoEncontradaException;
 import com.tello.todo_api.model.Tarea;
 import com.tello.todo_api.repository.TareaRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +22,8 @@ public class TareaService {
                 .orElseThrow(() -> new TareaNoEncontradaException(id));
     }
 
-    public Tarea buscarPorId(long id){
-        return  tareaRepository.findById(id).orElseThrow(() -> new TareaNoEncontradaException(id));
+    public TareaResponse buscarPorId(Long id) {
+        return TareaResponse.desde(obtenerTarea(id));
     }
 
     public TareaResponse crear(TareaRequest request){
@@ -37,22 +36,17 @@ public class TareaService {
                 .map(TareaResponse::desde).toList();
     }
 
-    public Tarea actualizar(Long id, TareaRequest request){
+    public TareaResponse actualizar(Long id, TareaRequest request){
         Tarea tarea = obtenerTarea(id);
-        tareaRepository.save(request.toEntity());
-        return null;
+        tarea.setTitulo(request.titulo());
+        tarea.setDescripcion(request.descripcion());
+        tarea.setCompletada(request.completada());
+        Tarea guardada = tareaRepository.save(tarea);
+        return TareaResponse.desde(guardada);
     }
 
-//    public Tarea actualizar(Long id, Tarea datos) {
-//        Tarea tarea = buscarPorId(id);
-//        tarea.setTitulo(datos.getTitulo());
-//        tarea.setDescripcion(datos.getDescripcion());
-//        tarea.setCompletada(datos.isCompletada());
-//        return tareaRepository.save(tarea);
-//    }
-
     public void eliminar(Long id){
-        buscarPorId(id);
-        tareaRepository.deleteById(id);
+        Tarea tarea = obtenerTarea(id);
+        tareaRepository.delete(tarea);
     }
 }
