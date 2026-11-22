@@ -1,5 +1,7 @@
 package com.tello.todo_api.controller;
 
+import com.tello.todo_api.dto.TareaRequest;
+import com.tello.todo_api.dto.TareaResponse;
 import com.tello.todo_api.model.Tarea;
 import com.tello.todo_api.repository.TareaRepository;
 import com.tello.todo_api.service.TareaService;
@@ -20,23 +22,23 @@ public class TareaController {
     }
 
     @GetMapping
-    public List<Tarea> listar() {
+    public List<TareaResponse> listar(){
         return tareaService.listar();
     }
 
     @PostMapping
-    public ResponseEntity<Tarea> crear(@Valid @RequestBody Tarea tarea) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tareaService.crear(tarea));
+    public ResponseEntity<TareaResponse> crear(@Valid @RequestBody TareaRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(tareaService.crear(request));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tarea> buscar(@PathVariable Long id) {
+    public ResponseEntity<TareaResponse> buscar(@PathVariable Long id){
         return ResponseEntity.ok(tareaService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Tarea> actualizar(@PathVariable Long id, @Valid @RequestBody Tarea datos) {
-        return ResponseEntity.ok(tareaService.actualizar(id, datos));
+    public ResponseEntity<TareaResponse> actualizar(@PathVariable Long id, @Valid @RequestBody TareaRequest request) {
+        return ResponseEntity.ok(tareaService.actualizar(id,request));
     }
 
     @DeleteMapping("/{id}")

@@ -11,13 +11,13 @@ public record TareaRequest(
 
         @Size(max= 255, message = "La descripción no puede pasar de 255 caracteres")
         String descripcion,
-        boolean completada
+        Boolean completada
 ) {
     public Tarea toEntity() {
         Tarea tarea = new Tarea();
         tarea.setTitulo(titulo);
         tarea.setDescripcion(descripcion);
-        tarea.setCompletada(completada);
+        tarea.setCompletada(Boolean.TRUE.equals(completada));
         return tarea;
     }
 }

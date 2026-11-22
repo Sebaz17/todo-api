@@ -40,7 +40,7 @@ public class TareaService {
         Tarea tarea = obtenerTarea(id);
         tarea.setTitulo(request.titulo());
         tarea.setDescripcion(request.descripcion());
-        tarea.setCompletada(request.completada());
+        tarea.setCompletada(Boolean.TRUE.equals(request.completada()));
         Tarea guardada = tareaRepository.save(tarea);
         return TareaResponse.desde(guardada);
     }
