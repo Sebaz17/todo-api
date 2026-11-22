@@ -33,6 +33,6 @@ API REST para gestionar tareas, desarrollada con Spring Boot y MySQL.
 
 ## Próximos pasos
 
-- [ ] DTOs
+- [x] DTOs
 - [ ] Tests unitarios
 - [ ] Documentación con Swagger
